@@ -9,9 +9,9 @@ class EchoNest:
     """
     def __init__(self):
       self.base_uri = 'http://developer.echonest.com/api/v4/'
-      self.api_key = yaml.load(open("api.yml", 'r'))['api_key']
+      self.api_key = yaml.load(open("api.yml", 'r'))['echonest']['api_key']
 
-    def terms(self, artist):
+    def get_terms(self, artist):
       base_url = self.base_uri + 'artist/terms'
       artist_formatted = re.sub('\s+', '+', artist.lower())
       params = { 'api_key': self.api_key, 'name': artist_formatted }
@@ -19,10 +19,11 @@ class EchoNest:
       terms = []
       if(response['response']['status']['code'] == 0):
         for item in itertools.islice(response['response']['terms'], 10):
-          terms.append(item['name'])
-      elif(response['response']['status']['code'] == 5):
+          if item['weight'] > 0.4:
+            terms.append(re.sub('\s+', '-', item['name']))
       else:
         print response
+        print artist_formatted
       return terms
 
 

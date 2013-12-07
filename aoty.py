@@ -10,6 +10,10 @@ class SqliteModel(Model):
 class Album(SqliteModel):
   title = CharField()
   artist = CharField()
+  image_file = CharField()
+
+  def tags(self):
+    return [tag.name for tag in Tag.select().join(AlbumTag).where(AlbumTag.album == self)]
 
 class Tag(SqliteModel):
   name = CharField()
@@ -24,6 +28,27 @@ def create_tables():
   AlbumTag.create_table(True)
 
 database.connect()
+
+def get_or_create_album(artist, title):
+  try:
+    album = Album.select().where(Album.title == title).where(Album.artist == artist).get()
+  except Album.DoesNotExist:
+    album = Album.create(artist=artist, title=title)
+  return album
+
+def get_or_create_tag(name):
+  try:
+    tag = Tag.select().where(Tag.name == name).get()
+  except Tag.DoesNotExist:
+    tag = Tag.create(name=name)
+  return tag
+
+def get_or_create_album_tag(album, tag):
+  try:
+    at = AlbumTag.select().where(AlbumTag.album == album).where(AlbumTag.tag == tag).get()
+  except AlbumTag.DoesNotExist:
+    at = AlbumTag.create(album=album, tag=tag)
+  return at
 
 
 #import sqlite3
