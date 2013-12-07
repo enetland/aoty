@@ -1,8 +1,10 @@
 from echonest import *
+from lastfm import *
 from aoty import *
 
 if __name__ == "__main__":
   echonest = EchoNest()
+  lastfm = LastFM()
 
   create_tables()
 
@@ -18,6 +20,9 @@ if __name__ == "__main__":
 
     print artist + ' - ' + title
     album = get_or_create_album(artist, title)
+    if album.image and AlbumTag.select().join(Album).where(Album.title == title).first():
+      continue
+    lastfm.get_album_info(album)
 
     terms = echonest.get_terms(artist)
 

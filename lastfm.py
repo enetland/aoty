@@ -1,10 +1,11 @@
-
 import requests
 import yaml
-import pdb
+import urllib
+import os.path
+import re
 
 
-class EchoNest:
+class LastFM:
     """
     Handle API requests to Last.fm API
     """
@@ -12,14 +13,20 @@ class EchoNest:
       self.base_uri = 'http://ws.audioscrobbler.com/2.0/'
       self.api_key = yaml.load(open("api.yml", 'r'))['lastfm']['api_key']
 
-    def get_album_info(self, artist, album):
+    def get_album_info(self, album):
       base_url = self.base_uri
-      params = {'method': 'album.getInfo', 'api_key': self.api_key,
-                'artist': artist, 'album': album, 'format': 'json' }
+      params = {'method': 'album.getInfo', 'api_key': self.api_key, 'autocorrect': 1,
+                'artist': album.artist, 'album': album.title, 'format': 'json' }
       response = requests.get(base_url, params=params).json()
-      pdb.set_trace()
       if(response['album']['image']):
-
+        for image in response['album']['image']:
+          if(image['size'] == 'extralarge'):
+            filename = 'images/' +  re.sub('[^\w\s-]', '', album.artist + '-' + album.title).strip().lower() + '.png'
+            if not os.path.isfile(filename):
+              urllib.urlretrieve(image['#text'], filename)
+            album.image = filename
+        album.listeners = response['album']['listeners']
+        album.save()
       else:
         print response
 
