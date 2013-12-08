@@ -12,6 +12,7 @@ class Album(SqliteModel):
   artist = CharField()
   image = CharField(null=True)
   listeners = IntegerField(null=True)
+  rank = IntegerField(null=True)
 
   def tags(self):
     return [tag.name for tag in Tag.select().join(AlbumTag).where(AlbumTag.album == self)]

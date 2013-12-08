@@ -1,5 +1,5 @@
 *.db
 *.sqlite
 *.pyc
-images/
+site/images/
 api.yml

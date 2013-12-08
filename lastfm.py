@@ -22,8 +22,8 @@ class LastFM:
         for image in response['album']['image']:
           if(image['size'] == 'extralarge'):
             filename = 'images/' +  re.sub('[^\w\s-]', '', album.artist + '-' + album.title).strip().lower() + '.png'
-            if not os.path.isfile(filename):
-              urllib.urlretrieve(image['#text'], filename)
+            if not os.path.isfile('site/' + filename):
+              urllib.urlretrieve(image['#text'], 'site/' + filename)
             album.image = filename
         album.listeners = response['album']['listeners']
         album.save()
