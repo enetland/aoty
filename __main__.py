@@ -29,18 +29,16 @@ if __name__ == "__main__":
     album.rank = rank
     album.save()
     rank += 1
-    if album.image and AlbumTag.select().join(Album).where(Album.title == title).first():
-      continue
-    lastfm.get_album_info(album)
 
-    terms = echonest.get_terms(artist)
+    if not album.image:
+      lastfm.get_album_info(album)
 
-    if not terms:
-      failed.append(artist + ' - ' + title)
-      continue
-    else:
+    if not album.tags():
+      terms = echonest.get_terms(artist)
+
       for term in terms:
         print term
         tag = get_or_create_tag(term)
         get_or_create_album_tag(album, tag)
+
   generate_site.run('site/index.html')
