@@ -19,7 +19,7 @@ class EchoNest:
       terms = []
       if(response['response']['status']['code'] == 0):
         for item in itertools.islice(response['response']['terms'], 10):
-          if item['weight'] > 0.4:
+          if item['weight'] > 0.7:
             terms.append(re.sub('\s+', '-', item['name']))
       else:
         print response

@@ -8,4 +8,5 @@ def run(output_file_name):
   page = Template(filename='./templates/album_list.mako', lookup=lookup)
 
   with open(output_file_name, 'w') as f:
-    f.write(page.render(albums=Album.select(), tags = Tag.select()).encode('utf8'))
+    f.write(page.render(albums=Album.select(),
+                        tags = popular_tags()).encode('utf8'))

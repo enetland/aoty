@@ -1,3 +1,11 @@
+<%!
+    import re
+
+    def class_char_filter(text):
+        return re.sub('[^\w]', '', text)
+%>
+
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -23,22 +31,26 @@
     <script language="javascript" type="text/javascript" src="js/bootstrap.min.js"></script>
     <script language="javascript" type="text/javascript" src="js/jquery.isotope.min.js"></script>
     <script language="javascript" type="text/javascript">
-      $('#container').isotope({
-        itemSelector : '.album',
-        layoutMode : 'fitRows'
+      $(document).ready(function() {
+        $('#container').isotope({
+          itemSelector : '.album',
+          layoutMode : 'fitRows'
+        });
+
+        $('#filters .filter_btn').click(function(){
+          $(this).toggleClass('active');
+
+          // JQuery select all buttons with active state, get data-filter-values
+          selectors = $('#filters .filter_btn.active').map(function(){return $(this).data('filter-value');}).get();
+
+          ///Set Isotope filter to this long selector
+          var selector = selectors.join('');
+          $('#container').isotope({ filter: selector });
+          return false;
+        });
       });
 
-      $('#filters .filter_btn').click(function(){
-        $(this).toggleClass('active');
 
-        // JQuery select all buttons with active state, get data-filter-values
-        selectors = $('#filters .filter_btn.active').map(function(){return $(this).data('filter-value');}).get();
-
-        ///Set Isotope filter to this long selector
-        var selector = selectors.join('');
-        $('#container').isotope({ filter: selector });
-        return false;
-      });
 
     </script>
   </body>
@@ -61,11 +73,11 @@
 </%def>
 
 <%def name="album_element(album)">
-  <div class="label inside bottom fade album ${' '.join(album.tags())}" data-label="${album.artist} - ${album.title}">
+  <div class="label inside bottom fade album ${' '.join([class_char_filter(tag) for tag in album.tags()])}" data-label="${album.artist} - ${album.title}">
     <img alt="${album.artist} - ${album.title}" src="${album.image}">
   </div>
 </%def>
 
 <%def name="filter_elememt(tag)">
-  <button type="button" class="filter_btn btn btn-default" data-filter-value=".${tag.name}">${tag.name}</button>
+  <button type="button" class="filter_btn btn btn-default" data-filter-value=".${class_char_filter(tag.name)}">${tag.name}</button>
 </%def>

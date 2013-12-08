@@ -52,6 +52,8 @@ def get_or_create_album_tag(album, tag):
     at = AlbumTag.create(album=album, tag=tag)
   return at
 
+def popular_tags():
+  return Tag.raw('select * from tag t order by (select count(*) from albumtag a where a.tag_id = t.id) DESC')
 
 #import sqlite3
 #conn = sqlite3.connect('test.db')
