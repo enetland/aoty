@@ -63,11 +63,10 @@
         });
 
         $('#filters .btn').click(function(){
-          e.preventDefault();
           $(this).toggleClass('active');
 
           // JQuery select all buttons with active state, get data-filter-values
-          selectors = $('#filters .filter_btn.active').map(function(){return $(this).data('filter-value');}).get();
+          selectors = $('#filters .active').map(function(){return $(this).data('filter-value');}).get();
 
           ///Set Isotope filter to this long selector
           var selector = selectors.join('');
