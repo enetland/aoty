@@ -20,6 +20,12 @@
   <div class='continer'>
     <div class='row'>
       <div class="col-sm-2">
+        <p>
+          <div id='sort' class='btn-group' data-toggle="buttons-radio">
+            <button type='button' class="btn btn-primary" data-sort-by='rank'>Rank</button>
+            <button type='button' class="btn btn-primary" data-sort-by='listeners'>Popularity</button>
+          </div>
+        </p>
         ${filters(tags)}
       </div>
       <div class="col-sm-10">
@@ -34,10 +40,30 @@
       $(document).ready(function() {
         $('#container').isotope({
           itemSelector : '.album',
-          layoutMode : 'fitRows'
+          layoutMode : 'fitRows',
+           getSortData : {
+            rank : function ( $elem ) {
+              return parseInt($elem.data('rank'));
+            },
+            listeners : function ( $elem ) {
+              return parseInt($elem.data('listeners'));
+            }
+          }
         });
 
-        $('#filters .filter_btn').click(function(){
+        $('#sort .btn').click(function(){
+          if($(this).hasClass('active')){
+            return true;
+          }
+          else{
+            $(this).addClass('active');
+            $(this).siblings().removeClass('active');
+            $('#container').isotope({ sortBy : $(this).data('sort-by') });
+          }
+        });
+
+        $('#filters .btn').click(function(){
+          e.preventDefault();
           $(this).toggleClass('active');
 
           // JQuery select all buttons with active state, get data-filter-values
@@ -46,12 +72,8 @@
           ///Set Isotope filter to this long selector
           var selector = selectors.join('');
           $('#container').isotope({ filter: selector });
-          return false;
         });
       });
-
-
-
     </script>
   </body>
 </html>
@@ -73,11 +95,14 @@
 </%def>
 
 <%def name="album_element(album)">
-  <div class="label inside bottom fade album ${' '.join([class_char_filter(tag) for tag in album.tags()])}" data-label="${album.artist} - ${album.title}">
-    <img alt="${album.artist} - ${album.title}" src="${album.image}">
+  <div class="label inside bottom fade album ${' '.join([class_char_filter(tag) for tag in album.tags()])}" data-label="${album.artist} - ${album.title}" data-rank='${album.rank}' data-listeners='-${album.listeners}'>
+    <a href='${album.lastfm_url}'>
+      <img alt="${album.artist} - ${album.title}" src="${album.image}">
+    </a>
   </div>
 </%def>
 
 <%def name="filter_elememt(tag)">
-  <button type="button" class="filter_btn btn btn-default" data-filter-value=".${class_char_filter(tag.name)}">${tag.name}</button>
+  <button type="button" class="btn btn-default" data-filter-value=".${class_char_filter(tag.name)}">${tag.name}</button>
 </%def>
+

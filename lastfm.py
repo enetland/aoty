@@ -26,6 +26,7 @@ class LastFM:
               urllib.urlretrieve(image['#text'], 'site/' + filename)
             album.image = filename
         album.listeners = response['album']['listeners']
+        album.lastfm_url = response['album']['url']
         album.save()
       else:
         print response

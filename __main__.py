@@ -30,7 +30,7 @@ if __name__ == "__main__":
     album.save()
     rank += 1
 
-    if not album.image:
+    if not album.image or not album.lastfm_url or not album.listeners:
       lastfm.get_album_info(album)
 
     if not album.tags():
