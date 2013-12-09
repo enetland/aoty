@@ -1,4 +1,4 @@
-=== AOTY
+## AOTY
 
 This is a small script I threw together to prettify a list of albums
 using information from EchoNest and Last.fm.
