@@ -6,6 +6,13 @@ import os
 import generate_site
 
 if __name__ == "__main__":
+
+  tag_whitelist = {'rock', 'pop', 'electronic', 'funk', 'house', 'disco',
+                    'acoustic', 'ambient', 'blues', 'classical', 'experimental',
+                    'hip-hop', 'rap', 'folk',
+                    'punk', 'rnb', 'r&b', 'soul', 'idm', 'instrumental', 'lo-fi',
+                    'psychadelic', 'garage-rock', 'noise', 'drone', 'country'}
+
   echonest = EchoNest()
   lastfm = LastFM()
 
@@ -34,10 +41,11 @@ if __name__ == "__main__":
       lastfm.get_album_info(album)
 
     if not album.tags():
-      terms = echonest.get_terms(artist)
+      terms = set()
+      terms |= echonest.get_terms(artist, tag_whitelist)
+      terms |= lastfm.get_top_tags(album, tag_whitelist)
 
       for term in terms:
-        print term
         tag = get_or_create_tag(term)
         get_or_create_album_tag(album, tag)
 
