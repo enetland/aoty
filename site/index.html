@@ -12,6 +12,7 @@
     <title>AOTY</title>
   </head>
   <body>
+  <a href="#" class="back-to-top">Back to Top</a>
   <div class='continer'>
     <div class='row'>
       <div class="col-sm-2">
@@ -24,67 +25,67 @@
         
   <div id='filters'>
       
-  <button type="button" class="btn btn-default" data-filter-value=".electronic">electronic</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".electronic">electronic</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".rock">rock</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".rock">rock</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".pop">pop</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".pop">pop</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".experimental">experimental</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".experimental">experimental</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".ambient">ambient</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".ambient">ambient</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".idm">idm</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".idm">idm</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".rb">r&b</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".rb">r&b</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".soul">soul</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".soul">soul</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".hiphop">hip-hop</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".hiphop">hip-hop</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".folk">folk</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".folk">folk</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".noise">noise</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".noise">noise</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".lofi">lo-fi</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".lofi">lo-fi</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".punk">punk</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".punk">punk</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".rap">rap</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".rap">rap</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".funk">funk</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".funk">funk</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".instrumental">instrumental</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".instrumental">instrumental</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".drone">drone</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".drone">drone</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".house">house</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".house">house</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".garagerock">garage-rock</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".garagerock">garage-rock</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".blues">blues</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".blues">blues</button>
 
       
-  <button type="button" class="btn btn-default" data-filter-value=".country">country</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".country">country</button>
 
   </div>
 
@@ -836,6 +837,22 @@
           var selector = selectors.join('');
           $('#container').isotope({ filter: selector });
         });
+
+        var offset = 220;
+        var duration = 500;
+        jQuery(window).scroll(function() {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.back-to-top').fadeIn(duration);
+            } else {
+                jQuery('.back-to-top').fadeOut(duration);
+            }
+        });
+
+        jQuery('.back-to-top').click(function(event) {
+            event.preventDefault();
+            jQuery('html, body').animate({scrollTop: 0}, duration);
+            return false;
+        })
       });
     </script>
   </body>

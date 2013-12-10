@@ -17,6 +17,7 @@
     <title>AOTY</title>
   </head>
   <body>
+  <a href="#" class="back-to-top">Back to Top</a>
   <div class='continer'>
     <div class='row'>
       <div class="col-sm-2">
@@ -72,6 +73,22 @@
           var selector = selectors.join('');
           $('#container').isotope({ filter: selector });
         });
+
+        var offset = 220;
+        var duration = 500;
+        jQuery(window).scroll(function() {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.back-to-top').fadeIn(duration);
+            } else {
+                jQuery('.back-to-top').fadeOut(duration);
+            }
+        });
+
+        jQuery('.back-to-top').click(function(event) {
+            event.preventDefault();
+            jQuery('html, body').animate({scrollTop: 0}, duration);
+            return false;
+        })
       });
     </script>
   </body>
@@ -102,6 +119,6 @@
 </%def>
 
 <%def name="filter_elememt(tag)">
-  <button type="button" class="btn btn-default" data-filter-value=".${class_char_filter(tag.name)}">${tag.name}</button>
+  <button type="button" class="btn btn-sm btn-default" data-filter-value=".${class_char_filter(tag.name)}">${tag.name}</button>
 </%def>
 
